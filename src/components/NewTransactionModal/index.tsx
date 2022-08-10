@@ -1,14 +1,15 @@
+import { useTransactions } from "../../contexts/Transactions/TransactionContext";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as Dialog from "@radix-ui/react-dialog";
 import { ArrowCircleDown, ArrowCircleUp, X } from "phosphor-react";
-import { Controller, useForm } from "react-hook-form";
 import * as zod from "zod";
 import * as N from "./styles";
 
 const newTransactionFormSchema = zod.object({
   price: zod.number(),
   description: zod.string(),
-  categody: zod.string(),
+  category: zod.string(),
   type: zod.enum(["income", "outcome"]),
 });
 
@@ -28,10 +29,18 @@ export function NewTransactionModal() {
     },
   });
 
-  async function handleCreateNewTransaction(data: NewTransactionFormInputs) {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+  const { createTransaction } = useTransactions();
 
-    console.log(data);
+  async function handleCreateNewTransaction(data: NewTransactionFormInputs) {
+    const { description, category, price, type } = data;
+
+    await createTransaction({
+      description,
+      category,
+      price,
+      type,
+    });
+
     reset();
   }
 
@@ -63,7 +72,7 @@ export function NewTransactionModal() {
             type="text"
             placeholder="Categoria"
             id="category"
-            {...register("categody")}
+            {...register("category")}
           />
 
           <Controller
