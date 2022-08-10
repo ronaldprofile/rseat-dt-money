@@ -1,18 +1,18 @@
-import { createContext, useContext } from "react";
-import { Transaction } from "./TransactionProvider";
+import { createContext, useContext } from 'react'
+import { Transaction } from './TransactionProvider'
 
 interface CreateTransactionData {
-  description: string;
-  category: string;
-  price: number;
-  type: "income" | "outcome";
+  description: string
+  category: string
+  price: number
+  type: 'income' | 'outcome'
 }
 interface TransactionContextType {
-  transactions: Transaction[];
-  getTransactions: (query?: string) => Promise<void>;
-  createTransaction: (data: CreateTransactionData) => Promise<void>;
+  transactions: Transaction[]
+  getTransactions: (query?: string) => Promise<void>
+  createTransaction: (data: CreateTransactionData) => Promise<void>
 }
 
-export const TransactionsContext = createContext({} as TransactionContextType);
+export const TransactionsContext = createContext({} as TransactionContextType)
 
-export const useTransactions = () => useContext(TransactionsContext);
+export const useTransactions = () => useContext(TransactionsContext)

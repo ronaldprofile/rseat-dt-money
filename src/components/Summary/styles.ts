@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled, { css } from 'styled-components'
 
 export const SummaryContainer = styled.section`
   width: 100%;
@@ -11,21 +11,21 @@ export const SummaryContainer = styled.section`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
-`;
+`
 
 interface SummaryCardProps {
-  variant?: "green";
+  variant?: 'green'
 }
 
 export const SummaryCard = styled.div<SummaryCardProps>`
   padding: 2rem;
-  background: ${({ theme }) => theme["gray-600"]};
+  background: ${({ theme }) => theme['gray-600']};
   border-radius: 6px;
 
   ${(props) =>
-    props.variant === "green" &&
+    props.variant === 'green' &&
     css`
-      background: ${({ theme }) => theme["green-700"]};
+      background: ${({ theme }) => theme['green-700']};
     `}
 
   header {
@@ -34,7 +34,7 @@ export const SummaryCard = styled.div<SummaryCardProps>`
     justify-content: space-between;
 
     span {
-      color: ${({ theme }) => theme["gray-300"]};
+      color: ${({ theme }) => theme['gray-300']};
     }
   }
 
@@ -43,4 +43,4 @@ export const SummaryCard = styled.div<SummaryCardProps>`
     margin-top: 1rem;
     font-size: 2rem;
   }
-`;
+`
