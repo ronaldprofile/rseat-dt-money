@@ -1,5 +1,6 @@
-import { MagnifyingGlass } from "phosphor-react";
 import { useForm } from "react-hook-form";
+import { useTransactions } from "../../../../contexts/Transactions/TransactionContext";
+import { MagnifyingGlass } from "phosphor-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
 import * as S from "./styles";
@@ -15,17 +16,14 @@ export function SearchForm() {
     handleSubmit,
     register,
     formState: { isSubmitting },
-    resetField,
   } = useForm<SearchFormInputs>({
     resolver: zodResolver(searchFormSchema),
   });
 
-  async function handleSearchTransaction(data: SearchFormInputs) {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+  const { getTransactions } = useTransactions();
 
-    console.log(data);
-    
-    resetField("query")
+  async function handleSearchTransaction(data: SearchFormInputs) {
+    await getTransactions(data.query);
   }
 
   return (

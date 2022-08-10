@@ -19,19 +19,25 @@ export function TransactionsContextProvider({
 }: TransactionsContextProviderProps) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
 
-  useEffect(() => {
-    async function getTransactions() {
-      const response = await fetch("http://localhost:3000/transactions");
-      const data = await response.json();
+  async function getTransactions(query?: string) {
+    const baseURL = new URL("http://localhost:3000/transactions");
 
-      setTransactions(data);
+    if (query) {
+      baseURL.searchParams.append("q", query);
     }
 
+    const response = await fetch(baseURL);
+    const data = await response.json();
+
+    setTransactions(data);
+  }
+
+  useEffect(() => {
     getTransactions();
   }, []);
 
   return (
-    <TransactionsContext.Provider value={{ transactions }}>
+    <TransactionsContext.Provider value={{ transactions, getTransactions }}>
       {children}
     </TransactionsContext.Provider>
   );
