@@ -3,9 +3,34 @@
     {
       "id": 1,
       "description": "Desenvolvimento App Magalu",
+      "category": "Venda",
       "price": 50000,
       "type": "income",
       "created_at": "2022-08-10T11:11:10.584Z"
+    },
+    {
+      "id": 2,
+      "description": "Mackbook",
+      "category": "Compra",
+      "price": 7000,
+      "type": "outcome",
+      "created_at": "2022-20-10T11:12:10.584Z"
+    },
+    {
+      "id": 3,
+      "description": "Almoço no Mac Donalds",
+      "category": "Alimentação",
+      "price": 100,
+      "type": "outcome",
+      "created_at": "2022-13-10T11:11:10.584Z"
+    },
+    {
+      "id": 4,
+      "description": "FIFA 22",
+      "category": "Jogos",
+      "price": 600,
+      "type": "outcome",
+      "created_at": "2022-12-10T11:11:10.584Z"
     }
   ]
 }
