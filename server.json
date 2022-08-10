@@ -1,0 +1,11 @@
+{
+  "transactions": [
+    {
+      "id": 1,
+      "description": "Desenvolvimento App Magalu",
+      "price": 50000,
+      "type": "income",
+      "created_at": "2022-08-10T11:11:10.584Z"
+    }
+  ]
+}
