@@ -38,3 +38,31 @@ export const PriceHighlight = styled.span<PriceHighlightProps>`
   color: ${({ variant, theme }) =>
     variant === 'income' ? theme['green-300'] : theme['red-300']};
 `
+
+export const ActionsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+
+  button {
+    padding: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: ${({ theme }) => theme['gray-400']};
+    cursor: pointer;
+
+    &:hover {
+      color: ${({ theme }) => theme['green-300']};
+    }
+
+    &:last-child:hover {
+      color: ${({ theme }) => theme['red-300']};
+    }
+  }
+`

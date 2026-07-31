@@ -1,16 +1,22 @@
 import { createContext } from "use-context-selector";
-import { Transaction } from "./TransactionProvider";
+import { Transaction } from "../../services/transactionsStorage";
 
-interface CreateTransactionData {
+export interface CreateTransactionData {
   description: string;
   category: string;
   price: number;
   type: "income" | "outcome";
 }
+
 interface TransactionContextType {
   transactions: Transaction[];
   getTransactions: (query?: string) => Promise<void>;
   createTransaction: (data: CreateTransactionData) => Promise<void>;
+  updateTransaction: (
+    id: number,
+    data: CreateTransactionData
+  ) => Promise<void>;
+  removeTransaction: (id: number) => Promise<void>;
 }
 
 export const TransactionsContext = createContext({} as TransactionContextType);

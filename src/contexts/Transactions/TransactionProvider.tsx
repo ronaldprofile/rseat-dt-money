@@ -1,22 +1,14 @@
-import { ReactNode, useCallback, useEffect, useState } from "react";
-import { TransactionsContext } from "./TransactionContext";
-import { api } from "../../services/api";
-
-export interface Transaction {
-  id: number;
-  description: string;
-  category: string;
-  price: number;
-  type: "income" | "outcome";
-  created_at: string;
-}
-
-interface CreateTransactionData {
-  description: string;
-  category: string;
-  price: number;
-  type: "income" | "outcome";
-}
+import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
+import {
+  CreateTransactionData,
+  TransactionsContext,
+} from "./TransactionContext";
+import {
+  Transaction,
+  createLocalTransaction,
+  loadTransactions,
+  saveTransactions,
+} from "../../services/transactionsStorage";
 
 interface TransactionsContextProviderProps {
   children: ReactNode;
@@ -25,41 +17,64 @@ interface TransactionsContextProviderProps {
 export function TransactionsContextProvider({
   children,
 }: TransactionsContextProviderProps) {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [transactions, setTransactions] = useState<Transaction[]>(() =>
+    loadTransactions()
+  );
 
-  const getTransactions = useCallback(async (query?: string) => {
-    const { data } = await api("/transactions", {
-      params: {
-        _sort: "created_at",
-        _order: "desc",
-        q: query,
-      },
-    });
+  const [query, setQuery] = useState("");
 
-    setTransactions(data);
-  }, [])
+  const filteredTransactions = useMemo(() => {
+    if (!query) {
+      return transactions;
+    }
+
+    const normalizedQuery = query.toLowerCase();
+
+    return transactions.filter((transaction) =>
+      transaction.description.toLowerCase().includes(normalizedQuery)
+    );
+  }, [query, transactions]);
+
+  const getTransactions = useCallback(async (searchQuery?: string) => {
+    setQuery(searchQuery ?? "");
+  }, []);
 
   const createTransaction = useCallback(async (data: CreateTransactionData) => {
-    const { description, category, price, type } = data;
+    const transaction = createLocalTransaction(data);
 
-    const response = await api.post("/transactions", {
-      description,
-      category,
-      price,
-      type,
-      created_at: new Date(),
-    });
+    setTransactions((state) => [transaction, ...state]);
+  }, []);
 
-    setTransactions((state) => [response.data, ...state]);
+  const updateTransaction = useCallback(
+    async (id: number, data: CreateTransactionData) => {
+      setTransactions((state) =>
+        state.map((transaction) =>
+          transaction.id === id ? { ...transaction, ...data } : transaction
+        )
+      );
+    },
+    []
+  );
+
+  const removeTransaction = useCallback(async (id: number) => {
+    setTransactions((state) =>
+      state.filter((transaction) => transaction.id !== id)
+    );
   }, []);
 
   useEffect(() => {
-    getTransactions();
-  }, [getTransactions]);
+    saveTransactions(transactions);
+  }, [transactions]);
 
   return (
     <TransactionsContext.Provider
-      value={{ transactions, getTransactions, createTransaction }}
+      value={{
+        transactions: filteredTransactions,
+        getTransactions,
+        createTransaction,
+        updateTransaction,
+        removeTransaction,
+      }}
     >
       {children}
     </TransactionsContext.Provider>
