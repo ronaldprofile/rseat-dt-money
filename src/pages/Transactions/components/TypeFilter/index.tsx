@@ -5,8 +5,16 @@ import * as S from "./styles";
 
 const options = [
   { value: "all" as const, label: "Todos", icon: null },
-  { value: "income" as const, label: "Entradas", icon: <ArrowUp size={16} /> },
-  { value: "outcome" as const, label: "Saídas", icon: <ArrowDown size={16} /> },
+  {
+    value: "income" as const,
+    label: "Entradas",
+    icon: <ArrowUp size={14} />,
+  },
+  {
+    value: "outcome" as const,
+    label: "Saídas",
+    icon: <ArrowDown size={14} />,
+  },
 ];
 
 export function TypeFilter() {
@@ -22,7 +30,7 @@ export function TypeFilter() {
 
   return (
     <S.TypeFilterContainer>
-      <FunnelSimple size={20} />
+      <FunnelSimple size={16} />
       {options.map((option) => (
         <S.FilterButton
           key={option.value}

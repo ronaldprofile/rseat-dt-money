@@ -9,16 +9,17 @@ interface FilterButtonProps {
 export const TypeFilterContainer = styled.div`
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 0.5rem;
-  margin-top: 1rem;
 `
 
 export const FilterButton = styled.button<FilterButtonProps>`
-  padding: 0.5rem 1rem;
+  padding: 0.375rem 0.75rem;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.375rem;
 
+  font-size: 0.875rem;
   font-weight: bold;
   border: 1px solid ${({ theme }) => theme['gray-600']};
   border-radius: 6px;

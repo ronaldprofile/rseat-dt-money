@@ -10,10 +10,14 @@ export interface CreateTransactionData {
 
 export type TransactionTypeFilter = "all" | "income" | "outcome";
 
+export type TransactionSortOrder = "date-desc" | "price-desc" | "price-asc";
+
 interface TransactionContextType {
   transactions: Transaction[];
   typeFilter: TransactionTypeFilter;
   setTypeFilter: (type: TransactionTypeFilter) => void;
+  sortOrder: TransactionSortOrder;
+  setSortOrder: (order: TransactionSortOrder) => void;
   getTransactions: (query?: string) => Promise<void>;
   createTransaction: (data: CreateTransactionData) => Promise<void>;
   updateTransaction: (

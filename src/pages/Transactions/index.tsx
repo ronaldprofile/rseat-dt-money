@@ -5,6 +5,7 @@ import { Summary } from "../../components/Summary";
 import { NewTransactionModal } from "../../components/NewTransactionModal";
 import { SearchForm } from "./components/SearchForm";
 import { TypeFilter } from "./components/TypeFilter";
+import { SortFilter } from "./components/SortFilter";
 import { formatDate, formatPrice } from "../../utils/formatter";
 import { TransactionsContext } from "../../contexts/Transactions/TransactionContext";
 import { Transaction } from "../../services/transactionsStorage";
@@ -45,8 +46,11 @@ export function Transactions() {
       <T.TransactionContainer>
         <SearchForm />
 
-        <TypeFilter />
+        <T.FiltersBar>
+          <TypeFilter />
 
+          <SortFilter />
+        </T.FiltersBar>
         <T.TableWrapper>
           <T.TransactionTable>
           <tbody>

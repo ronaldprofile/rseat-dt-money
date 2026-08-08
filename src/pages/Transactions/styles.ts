@@ -7,6 +7,20 @@ export const TransactionContainer = styled.main`
   margin: 4rem auto 0;
 `;
 
+export const FiltersBar = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+
+  @media (max-width: 768px) {
+    align-items: stretch;
+    flex-direction: column;
+  }
+`;
+
 export const TableWrapper = styled.div`
   margin-top: 1rem;
   height: 28rem;

@@ -1,6 +1,7 @@
 import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import {
   CreateTransactionData,
+  TransactionSortOrder,
   TransactionTypeFilter,
   TransactionsContext,
 } from "./TransactionContext";
@@ -26,10 +27,13 @@ export function TransactionsContextProvider({
 
   const [typeFilter, setTypeFilter] = useState<TransactionTypeFilter>("all");
 
+  const [sortOrder, setSortOrder] =
+    useState<TransactionSortOrder>("date-desc");
+
   const filteredTransactions = useMemo(() => {
     const normalizedQuery = query.toLowerCase();
 
-    return transactions.filter((transaction) => {
+    const filtered = transactions.filter((transaction) => {
       const matchesQuery =
         !query ||
         transaction.description.toLowerCase().includes(normalizedQuery);
@@ -39,7 +43,21 @@ export function TransactionsContextProvider({
 
       return matchesQuery && matchesType;
     });
-  }, [query, typeFilter, transactions]);
+
+    return filtered.sort((a, b) => {
+      switch (sortOrder) {
+        case "price-desc":
+          return b.price - a.price;
+        case "price-asc":
+          return a.price - b.price;
+        default:
+          return (
+            new Date(b.created_at).getTime() -
+            new Date(a.created_at).getTime()
+          );
+      }
+    });
+  }, [query, sortOrder, typeFilter, transactions]);
 
   const getTransactions = useCallback(async (searchQuery?: string) => {
     setQuery(searchQuery ?? "");
@@ -78,6 +96,8 @@ export function TransactionsContextProvider({
         transactions: filteredTransactions,
         typeFilter,
         setTypeFilter,
+        sortOrder,
+        setSortOrder,
         getTransactions,
         createTransaction,
         updateTransaction,
