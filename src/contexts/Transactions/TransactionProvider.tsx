@@ -1,6 +1,7 @@
 import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import {
   CreateTransactionData,
+  TransactionTypeFilter,
   TransactionsContext,
 } from "./TransactionContext";
 import {
@@ -23,17 +24,22 @@ export function TransactionsContextProvider({
 
   const [query, setQuery] = useState("");
 
-  const filteredTransactions = useMemo(() => {
-    if (!query) {
-      return transactions;
-    }
+  const [typeFilter, setTypeFilter] = useState<TransactionTypeFilter>("all");
 
+  const filteredTransactions = useMemo(() => {
     const normalizedQuery = query.toLowerCase();
 
-    return transactions.filter((transaction) =>
-      transaction.description.toLowerCase().includes(normalizedQuery)
-    );
-  }, [query, transactions]);
+    return transactions.filter((transaction) => {
+      const matchesQuery =
+        !query ||
+        transaction.description.toLowerCase().includes(normalizedQuery);
+
+      const matchesType =
+        typeFilter === "all" || transaction.type === typeFilter;
+
+      return matchesQuery && matchesType;
+    });
+  }, [query, typeFilter, transactions]);
 
   const getTransactions = useCallback(async (searchQuery?: string) => {
     setQuery(searchQuery ?? "");
@@ -70,6 +76,8 @@ export function TransactionsContextProvider({
     <TransactionsContext.Provider
       value={{
         transactions: filteredTransactions,
+        typeFilter,
+        setTypeFilter,
         getTransactions,
         createTransaction,
         updateTransaction,

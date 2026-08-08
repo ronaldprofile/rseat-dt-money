@@ -4,6 +4,7 @@ import { Header } from "../../components/Header";
 import { Summary } from "../../components/Summary";
 import { NewTransactionModal } from "../../components/NewTransactionModal";
 import { SearchForm } from "./components/SearchForm";
+import { TypeFilter } from "./components/TypeFilter";
 import { formatDate, formatPrice } from "../../utils/formatter";
 import { TransactionsContext } from "../../contexts/Transactions/TransactionContext";
 import { Transaction } from "../../services/transactionsStorage";
@@ -44,7 +45,10 @@ export function Transactions() {
       <T.TransactionContainer>
         <SearchForm />
 
-        <T.TransactionTable>
+        <TypeFilter />
+
+        <T.TableWrapper>
+          <T.TransactionTable>
           <tbody>
             {transactions.map(transaction => {
               return (
@@ -79,7 +83,8 @@ export function Transactions() {
               );
             })}
           </tbody>
-        </T.TransactionTable>
+          </T.TransactionTable>
+        </T.TableWrapper>
       </T.TransactionContainer>
 
       <NewTransactionModal

@@ -8,8 +8,12 @@ export interface CreateTransactionData {
   type: "income" | "outcome";
 }
 
+export type TransactionTypeFilter = "all" | "income" | "outcome";
+
 interface TransactionContextType {
   transactions: Transaction[];
+  typeFilter: TransactionTypeFilter;
+  setTypeFilter: (type: TransactionTypeFilter) => void;
   getTransactions: (query?: string) => Promise<void>;
   createTransaction: (data: CreateTransactionData) => Promise<void>;
   updateTransaction: (
