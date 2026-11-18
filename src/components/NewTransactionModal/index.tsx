@@ -5,6 +5,7 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowCircleDown, ArrowCircleUp, X } from "phosphor-react";
 import { Transaction } from "../../services/transactionsStorage";
+import { CATEGORIES } from "../../constants/categories";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as zod from "zod";
 import * as N from "./styles";
@@ -18,7 +19,7 @@ interface NewTransactionModalProps {
 const newTransactionFormSchema = zod.object({
   price: zod.number(),
   description: zod.string(),
-  category: zod.string(),
+  category: zod.enum(CATEGORIES),
   type: zod.enum(["income", "outcome"]),
 });
 
@@ -109,12 +110,21 @@ export function NewTransactionModal({
               {...register("price", { valueAsNumber: true })}
             />
 
-            <input
-              type="text"
-              placeholder="Categoria"
+            <select
               id="category"
+              defaultValue=""
+              required
               {...register("category")}
-            />
+            >
+              <option value="" disabled>
+                Selecione a categoria
+              </option>
+              {CATEGORIES.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
 
             <Controller
               name="type"

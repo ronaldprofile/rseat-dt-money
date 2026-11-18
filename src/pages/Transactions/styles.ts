@@ -95,3 +95,14 @@ export const ActionsContainer = styled.div`
     }
   }
 `;
+
+export const GoalSection = styled.section`
+  width: 100%;
+  padding: 0 1.5rem;
+  max-width: 1120px;
+  margin: 2rem auto 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;

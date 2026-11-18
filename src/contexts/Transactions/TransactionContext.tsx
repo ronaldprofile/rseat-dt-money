@@ -1,9 +1,10 @@
 import { createContext } from "use-context-selector";
 import { Transaction } from "../../services/transactionsStorage";
+import { Category } from "../../constants/categories";
 
 export interface CreateTransactionData {
   description: string;
-  category: string;
+  category: Category;
   price: number;
   type: "income" | "outcome";
 }
@@ -14,6 +15,7 @@ export type TransactionSortOrder = "date-desc" | "price-desc" | "price-asc";
 
 interface TransactionContextType {
   transactions: Transaction[];
+  allTransactions: Transaction[];
   typeFilter: TransactionTypeFilter;
   setTypeFilter: (type: TransactionTypeFilter) => void;
   sortOrder: TransactionSortOrder;

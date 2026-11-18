@@ -94,6 +94,7 @@ export function TransactionsContextProvider({
     <TransactionsContext.Provider
       value={{
         transactions: filteredTransactions,
+        allTransactions: transactions,
         typeFilter,
         setTypeFilter,
         sortOrder,

@@ -80,7 +80,8 @@ export const Content = styled(Dialog.Content)`
     flex-direction: column;
     gap: 1rem;
 
-    input {
+    input,
+    select {
       padding: 1rem;
       border: 0;
       border-radius: 6px;
@@ -89,6 +90,19 @@ export const Content = styled(Dialog.Content)`
 
       &::placeholder {
         color: ${({ theme }) => theme["gray-500"]};
+      }
+    }
+
+    select {
+      font: inherit;
+      cursor: pointer;
+
+      &:invalid {
+        color: ${({ theme }) => theme["gray-500"]};
+      }
+
+      option {
+        color: ${({ theme }) => theme["gray-300"]};
       }
     }
 

@@ -3,9 +3,12 @@ import { PencilSimple, Trash } from "phosphor-react";
 import { Header } from "../../components/Header";
 import { Summary } from "../../components/Summary";
 import { NewTransactionModal } from "../../components/NewTransactionModal";
+import { MonthSelector } from "../../components/MonthSelector";
+import { GoalCard } from "../../components/GoalCard";
 import { SearchForm } from "./components/SearchForm";
 import { TypeFilter } from "./components/TypeFilter";
 import { SortFilter } from "./components/SortFilter";
+import { MonthlyComparison } from "./components/MonthlyComparison";
 import { formatDate, formatPrice } from "../../utils/formatter";
 import { TransactionsContext } from "../../contexts/Transactions/TransactionContext";
 import { Transaction } from "../../services/transactionsStorage";
@@ -42,6 +45,14 @@ export function Transactions() {
     <div>
       <Header onNewTransaction={handleOpenNewTransaction} />
       <Summary />
+
+      <T.GoalSection>
+        <MonthSelector />
+
+        <GoalCard />
+
+        <MonthlyComparison />
+      </T.GoalSection>
 
       <T.TransactionContainer>
         <SearchForm />

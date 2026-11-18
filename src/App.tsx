@@ -1,4 +1,5 @@
 import { TransactionsContextProvider } from './contexts/Transactions/TransactionProvider'
+import { GoalsContextProvider } from './contexts/Goals/GoalsProvider'
 import { ThemeProvider } from 'styled-components'
 import { Transactions } from './pages/Transactions'
 import { GlobalStyles } from './styles/global'
@@ -10,7 +11,9 @@ export function App() {
       <GlobalStyles />
 
       <TransactionsContextProvider>
-        <Transactions />
+        <GoalsContextProvider>
+          <Transactions />
+        </GoalsContextProvider>
       </TransactionsContextProvider>
     </ThemeProvider>
   )

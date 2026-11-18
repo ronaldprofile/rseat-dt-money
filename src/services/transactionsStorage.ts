@@ -1,7 +1,13 @@
+import {
+  Category,
+  FALLBACK_CATEGORY,
+  isCategory,
+} from "../constants/categories";
+
 export interface Transaction {
   id: number;
   description: string;
-  category: string;
+  category: Category;
   price: number;
   type: "income" | "outcome";
   created_at: string;
@@ -9,7 +15,7 @@ export interface Transaction {
 
 interface CreateTransactionData {
   description: string;
-  category: string;
+  category: Category;
   price: number;
   type: "income" | "outcome";
 }
@@ -24,7 +30,14 @@ export function loadTransactions(): Transaction[] {
   }
 
   try {
-    return JSON.parse(stored);
+    const transactions: Transaction[] = JSON.parse(stored);
+
+    return transactions.map((transaction) => ({
+      ...transaction,
+      category: isCategory(transaction.category)
+        ? transaction.category
+        : FALLBACK_CATEGORY,
+    }));
   } catch {
     return [];
   }
