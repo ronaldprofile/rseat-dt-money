@@ -9,9 +9,12 @@ import { SearchForm } from "./components/SearchForm";
 import { TypeFilter } from "./components/TypeFilter";
 import { SortFilter } from "./components/SortFilter";
 import { MonthlyComparison } from "./components/MonthlyComparison";
+import { PaymentOverview } from "./components/PaymentOverview";
+import { PaymentBadge } from "../../components/PaymentBadge";
 import { formatDate, formatPrice } from "../../utils/formatter";
 import { TransactionsContext } from "../../contexts/Transactions/TransactionContext";
 import { Transaction } from "../../services/transactionsStorage";
+import { usePaymentStatus } from "../../hooks/usePaymentStatus";
 
 import * as T from "./styles";
 import { useContextSelector } from "use-context-selector";
@@ -26,6 +29,8 @@ export function Transactions() {
     TransactionsContext,
     ctx => ctx.removeTransaction
   );
+
+  const paymentOverview = usePaymentStatus();
 
   const [modalOpen, setModalOpen] = useState(false);
   const [transactionToEdit, setTransactionToEdit] =
@@ -62,17 +67,28 @@ export function Transactions() {
 
           <SortFilter />
         </T.FiltersBar>
+
+        <PaymentOverview overview={paymentOverview} />
+
         <T.TableWrapper>
           <T.TransactionTable>
           <tbody>
             {transactions.map(transaction => {
+              const payment = paymentOverview.byId.get(transaction.id);
+
               return (
                 <tr key={transaction.id}>
                   <td width="50%">{transaction.description}</td>
                   <td>
-                    <T.PriceHighlight variant={transaction.type}>
-                      {formatPrice(transaction.price)}
-                    </T.PriceHighlight>
+                    <T.PriceCell>
+                      <T.PriceHighlight variant={transaction.type}>
+                        {formatPrice(transaction.price)}
+                      </T.PriceHighlight>
+
+                      {transaction.type === "outcome" && payment && (
+                        <PaymentBadge payment={payment} />
+                      )}
+                    </T.PriceCell>
                   </td>
                   <td>{transaction.category}</td>
                   <td>{formatDate.format(new Date(transaction.created_at))}</td>

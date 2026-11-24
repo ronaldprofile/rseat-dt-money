@@ -41,6 +41,7 @@ There is no test framework set up.
 Things to know when working with this context:
 - Consumers read single fields with `useContextSelector(TransactionsContext, ctx => ctx.x)`, not `useContext`. This avoids unnecessary re-renders, so keep using it.
 - `transactions` in the context is the **filtered and sorted** list. `useSummary` (`src/hooks/useSummary.ts`) totals that list, so the summary cards follow the active search and filter.
+- Payment status badges on outcomes come from `getPaymentOverview` (`src/utils/paymentStatus.ts`, via `usePaymentStatus`). It is derived from `allTransactions`, never the filtered list: all incomes pay outcomes oldest first. It is not persisted. Spec: `docs/specs/2026-11-23-status-pagamento-saidas.md`.
 - `getTransactions(query)` only sets the search query. It is `async` and returns a Promise left over from the API version, as do `create`, `update` and `remove`.
 
 **UI layout:** `App.tsx` wraps everything in `ThemeProvider` → `GlobalStyles` → `TransactionsContextProvider` → the single page `pages/Transactions`. Shared components live in `src/components/` and page-only components in `src/pages/Transactions/components/`. The Transactions page controls `NewTransactionModal`, a Radix Dialog used for both create and edit: it opens in edit mode when it receives a `transaction` prop.

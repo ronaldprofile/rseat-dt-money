@@ -63,7 +63,21 @@ interface PriceHighlightProps {
   variant: "income" | "outcome";
 }
 
+export const PriceCell = styled.div`
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+`;
+
 export const PriceHighlight = styled.span<PriceHighlightProps>`
+  white-space: nowrap;
+
   color: ${({ variant, theme }) =>
     variant === "income" ? theme["green-300"] : theme["red-300"]};
 `;
